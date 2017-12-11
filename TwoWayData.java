@@ -1,5 +1,7 @@
 package les7;
 
+import java.lang.reflect.Array;
+
 public class TwoWayData <T> implements DataStructure <T> {
 
     private DataElement head;
@@ -13,27 +15,40 @@ public class TwoWayData <T> implements DataStructure <T> {
     }
 
     @Override
-    public boolean add(int value) {                    // добавление в конец
-        DataElement element = new DataElement<>(value);
-        if (head == null) {
-            head = tail = element;
-        } else {
-            DataElement current = tail;
-            tail.next = element;
-            tail.prev = current;
-            tail = element;
+    public void add(int value) {
+//        DataElement element = new DataElement(value);
+//        if (head == null) {
+//            head = tail = element;
+//        } else {
+//            DataElement current = tail;
+////            while ( current.next != null)
+//            tail.next = element;
+//            tail.prev = current;
+//            tail = element;
+        DataElement element = new DataElement(value);
+                if (head == null) {
+                       head = element;
+                    } else {
+                       DataElement current = head;
+                       while (current.next != null) {
+                               current = current.next;
+                           }
+                        current.next = element;
+                        element.prev = current;
+                   }
+                size++;
 
         }
 
-        return true;
-    }
+
 
 
     @Override
-    public boolean remove(int index) {
+    public void remove(int index) {
 
-            if (index < 0 || index > size) {
-            return false;
+            if (index < 0 || index >= size) {
+                throw new TwoWayDataIndexOutOfBoundsException("Invalid index = " + index + ". Please, give me index, which is positive or less size of list = " + size);
+
     }  DataElement prev = null; DataElement p = head;
                 for (int i= 0; i< index; i++) {
                     prev = p;
@@ -51,7 +66,7 @@ public class TwoWayData <T> implements DataStructure <T> {
             tail = prev;
         }
         size--;
-        return true;
+
     }
 
     @Override
@@ -66,8 +81,29 @@ public class TwoWayData <T> implements DataStructure <T> {
 
     @Override
     public Object toArray() {
-        if (isEmpty()) return "[]";
+        DataElement temp = head;
+        T [] collection = (T []) new Object [size];
+        for (int i = 0; i < size; i++) {
+            collection[i] = (T)head.value;
+            temp = temp.next;
+        }
+        return collection;
 
-        return null;
+
+
+
+
+//        if (isEmpty()) return "[]";
+
+
+
+
+//        DataStructure <Integer> dataStructure= new TwoWayData<>();
+
+
+//        {
+//            return null;
+//        }
     }
+
 }

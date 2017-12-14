@@ -26,37 +26,36 @@ public class TwoWayData <T> implements DataStructure <T> {
 //            tail.prev = current;
 //            tail = element;
         DataElement element = new DataElement(value);
-                if (head == null) {
-                       head = element;
-                    } else {
-                       DataElement current = head;
-                       while (current.next != null) {
-                               current = current.next;
-                           }
-                        current.next = element;
-                        element.prev = current;
-                   }
-                size++;
-
+        if (head == null) {
+            head = element;
+        } else {
+            DataElement current = head;
+            while (current.next != null) {
+                current = current.next;
+            }
+            current.next = element;
+            element.prev = current;
         }
+        size++;
 
-
+    }
 
 
     @Override
     public void remove(int index) {
 
-            if (index < 0 || index >= size) {
-                throw new TwoWayDataIndexOutOfBoundsException("Invalid index = " + index + ". Please, give me index, which is positive or less size of list = " + size);
+        if (index < 0 || index >= size) {
+            throw new TwoWayDataIndexOutOfBoundsException("НЕправильный индекс = " + index + ". Задайте положительный индекс или индекс меньше, чем = " + size);
 
-    }  DataElement prev = null; DataElement p = head;
-                for (int i= 0; i< index; i++) {
-                    prev = p;
-                    p = p.next;
-                }
+        }
+        DataElement prev = null;
+        DataElement p = head;
+        for (int i = 0; i < index; i++) {
+            prev = p;
+            p = p.next;
+        }
         if (index == 0) {
             head = head.next;
-
         } else {
             p.next.prev = prev;
             prev.next = p.next;
@@ -82,28 +81,15 @@ public class TwoWayData <T> implements DataStructure <T> {
     @Override
     public Object toArray() {
         DataElement temp = head;
-        T [] collection = (T []) new Object [size];
+        Object[] collection = new Object[size];
         for (int i = 0; i < size; i++) {
-            collection[i] = (T)head.value;
+            collection[i] = head.value;
             temp = temp.next;
         }
         return collection;
-
-
-
-
-
-//        if (isEmpty()) return "[]";
-
-
-
-
-//        DataStructure <Integer> dataStructure= new TwoWayData<>();
-
-
-//        {
-//            return null;
-//        }
     }
-
 }
+
+
+
+

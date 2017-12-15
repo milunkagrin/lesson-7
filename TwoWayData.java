@@ -15,7 +15,7 @@ public class TwoWayData <T> implements DataStructure <T> {
     }
 
     @Override
-    public void add(int value) {
+    public void add(T value) {
 //        DataElement element = new DataElement(value);
 //        if (head == null) {
 //            head = tail = element;

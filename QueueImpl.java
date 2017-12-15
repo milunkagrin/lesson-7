@@ -1,31 +1,44 @@
 package les7;
 
-public class QueueImpl implements Queue {
+import java.util.EmptyStackException;
 
-    private DataElement head;
-    private DataElement tail;
+public class QueueImpl <E> implements Queue <E> {
+
+    private Elem<E> top;
+    private Elem <E> tail;
     private int size;
 
     QueueImpl() {
         size = 0;
-        head = null;
+        top = null;
         tail = null;
     }
 
 
     @Override
-    public Object push(Object value) {
-        return null;
+    public void push( E value) {
+        top = new Elem <>(value, top);
+        size++;
+
     }
 
     @Override
-    public Object pop() {
-        return null;
+    public E pop() {
+        if (isEmpty()) {
+            throw new EmptyQueueException();
+        } else {
+            E saved = top.value;
+            top= top.next;
+            size--;
+            return saved;
+        }
+
     }
 
     @Override
     public boolean isEmpty() {
-        return head == null;
+        return top == null& tail== null;
+
     }
 
     @Override
@@ -35,12 +48,29 @@ public class QueueImpl implements Queue {
 
     @Override
     public Object toArray() {
-        DataElement temp = head;
-        Object[] queue = new Object[size];
+        Object[] collection = new Object[size];
         for (int i = 0; i < size; i++) {
-            queue [i] = head.value;
-            temp = temp.next;
+            collection[i] = pop();
         }
-        return queue;
+        return collection;
+    }
+
+    public String toString() {
+        if (isEmpty()) return "[]";
+        // [ el, el, ... , el]
+        StringBuilder sb = new StringBuilder("[");
+
+        Elem saved = top;
+        while (saved != null){
+            sb.append(String.valueOf(saved.value));
+            sb.append(", ");
+            saved = saved.next;
+        }
+        sb.delete(sb.length() - 2, sb.length());
+        sb.append("]");
+        return sb.toString();
+    }
+
+    private class EmptyQueueException extends Throwable {
     }
 }
